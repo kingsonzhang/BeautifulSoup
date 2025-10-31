@@ -48,6 +48,9 @@ __all__ = [
     "MarkupResemblesLocatorWarning",
     "UnusualUsageWarning",
     "XMLParsedAsHTMLWarning",
+
+    #Milestone2
+    "SoupReplacer"
 ]
 
 from collections import Counter
@@ -92,6 +95,9 @@ from .filter import (
     ElementFilter,
     SoupStrainer,
 )
+
+#Milestone2
+from .replacer import SoupReplacer
 from typing import (
     Any,
     cast,
@@ -215,6 +221,10 @@ class BeautifulSoup(Tag):
         from_encoding: Optional[_Encoding] = None,
         exclude_encodings: Optional[_Encodings] = None,
         element_classes: Optional[Dict[Type[PageElement], Type[PageElement]]] = None,
+
+        #Milestone2
+        replacer = None,
+
         **kwargs: Any,
     ):
         """Constructor.
@@ -343,6 +353,9 @@ class BeautifulSoup(Tag):
 
         self.element_classes = element_classes or dict()
 
+        #Milestone2
+        self.replacer = replacer
+
         # We need this information to track whether or not the builder
         # was specified well enough that we can omit the 'you need to
         # specify a parser' warning.
@@ -435,6 +448,9 @@ class BeautifulSoup(Tag):
         self.known_xml = self.is_xml
         self._namespaces = dict()
         self.parse_only = parse_only
+
+        #Milestone2
+        self.replacer = replacer
 
         if hasattr(markup, "read"):  # It's a file-type object.
             markup = markup.read()
