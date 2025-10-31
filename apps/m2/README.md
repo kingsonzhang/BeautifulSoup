@@ -20,7 +20,7 @@ BeautifulSoup:~/ ./venv/Scripts/activate    # On Windows to activate the virtual
 BeautifulSoup:~/ ./venv/Scripts/activate    # On Windows to activate the virtual environment
 ```
 
-## Part 2
+## Part 1
 <p>Change Directory into m2 to begin running the tasks</p>
 
 ```bash
@@ -48,6 +48,13 @@ The HTML websites are included in a folder called Websites on the same level as 
 (venv) BeautifulSoup\apps\m2:~/ python task5.py "../Websites/SimpleWebpage.html"
 (venv) BeautifulSoup\apps\m2:~/ python task6.py "../Websites/UCIrvine.html"
 ```
+
+## Part 2
+<p>A lot of the API calls made in the previous tasks come from files found in the bs4 folder. <br>
+BeautifulSoup class can be found in the __init__.py file.<br>
+SoupStrainer class can be found in the filter.py file.<br>
+The HTML parser itself, such as lxml, can be found in the folder builder, and the file called _htmlparser.py
+</p>
 
 ## Part 3
 
