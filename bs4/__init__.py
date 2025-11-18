@@ -223,7 +223,7 @@ class BeautifulSoup(Tag):
         element_classes: Optional[Dict[Type[PageElement], Type[PageElement]]] = None,
 
         #Milestone2
-        replacer = None,
+        replacer: Optional[SoupReplacer] = None,
 
         **kwargs: Any,
     ):
@@ -353,9 +353,6 @@ class BeautifulSoup(Tag):
 
         self.element_classes = element_classes or dict()
 
-        #Milestone2
-        self.replacer = replacer
-
         # We need this information to track whether or not the builder
         # was specified well enough that we can omit the 'you need to
         # specify a parser' warning.
@@ -473,6 +470,11 @@ class BeautifulSoup(Tag):
         # it was a file-type object, we've read from it.
         markup = cast(_RawMarkup, markup)
 
+        #Milestone2
+        if (self.replacer):
+            markup = markup.replace("<" + self.replacer.getOriginalTag() + ">", "<" + self.replacer.getNewTag() + ">")
+            markup = markup.replace("</" + self.replacer.getOriginalTag() + ">", "</" + self.replacer.getNewTag() + ">")
+        
         rejections = []
         success = False
         for (
@@ -484,6 +486,7 @@ class BeautifulSoup(Tag):
             markup, from_encoding, exclude_encodings=exclude_encodings
         ):
             self.reset()
+
             self.builder.initialize_soup(self)
             try:
                 self._feed()
@@ -875,6 +878,14 @@ class BeautifulSoup(Tag):
                 and (not self.parse_only.allow_string_creation(current_data))
             ):
                 return
+            
+            #Milestone2
+            if (
+                self.replacer
+                and len(self.tagStack) <= 1
+                and (not self.replacer.allow_string_creation(current_data))
+            ):
+                return
 
             containerClass = self.string_container(containerClass)
             o = containerClass(current_data)
@@ -1038,6 +1049,14 @@ class BeautifulSoup(Tag):
             self.parse_only
             and len(self.tagStack) <= 1
             and not self.parse_only.allow_tag_creation(nsprefix, name, attrs)
+        ):
+            return None
+        
+        #Milestone2
+        if (
+            self.replacer
+            and len(self.tagStack) <= 1
+            and not self.replacer.allow_tag_creation(nsprefix, name, attrs)
         ):
             return None
 

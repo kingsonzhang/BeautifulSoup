@@ -1,10 +1,14 @@
 #Milestone2
-from typing import Optional
-from bs4._typing import _RawAttributeValues
-
 from bs4.filter import SoupStrainer, PageElement, NavigableString, Tag
 
 class SoupReplacer(SoupStrainer):
-    def __init__(self, ogTag, altTag):
-        self.ogTag = ogTag
-        self.altTag = altTag
+    def __init__(self, originalTag, newTag):
+        self.originalTag = originalTag
+        self.newTag = newTag
+        super().__init__(self.newTag)
+
+    def getOriginalTag(self):
+        return self.originalTag
+    
+    def getNewTag(self):
+        return self.newTag
