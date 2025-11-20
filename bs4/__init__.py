@@ -98,6 +98,7 @@ from .filter import (
 
 #Milestone2
 from .replacer import SoupReplacer
+
 from typing import (
     Any,
     cast,
@@ -469,11 +470,6 @@ class BeautifulSoup(Tag):
         # At this point we know markup is a string or bytestring.  If
         # it was a file-type object, we've read from it.
         markup = cast(_RawMarkup, markup)
-
-        #Milestone2
-        if (self.replacer):
-            markup = markup.replace("<" + self.replacer.getOriginalTag() + ">", "<" + self.replacer.getNewTag() + ">")
-            markup = markup.replace("</" + self.replacer.getOriginalTag() + ">", "</" + self.replacer.getNewTag() + ">")
         
         rejections = []
         success = False
@@ -1053,6 +1049,8 @@ class BeautifulSoup(Tag):
             return None
         
         #Milestone2
+        if (self.replacer and self.replacer.replaceData):
+            name = self.replacer.replaceTag(name)
         if (
             self.replacer
             and len(self.tagStack) <= 1
@@ -1079,6 +1077,15 @@ class BeautifulSoup(Tag):
         )
         if tag is None:
             return tag
+        
+        #Milestone3
+        if (self.replacer and self.replacer.name_xformer):
+            tag.name = self.replacer.name_xformer(tag)
+        if (self.replacer and self.replacer.attrs_xformer):
+            tag.attrs = self.replacer.attrs_xformer(tag)
+        if (self.replacer and self.replacer.xformer):
+            self.replacer.xformer(tag)
+
         if self._most_recent_element is not None:
             self._most_recent_element.next_element = tag
         self._most_recent_element = tag
@@ -1094,6 +1101,11 @@ class BeautifulSoup(Tag):
         :meta private:
         """
         # print("End tag: " + name)
+        
+        #Milestone2
+        if (self.replacer and self.replacer.replaceData):
+            name = self.replacer.replaceTag(name)
+
         self.endData()
         self._popToTag(name, nsprefix)
 
