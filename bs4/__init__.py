@@ -504,6 +504,11 @@ class BeautifulSoup(Tag):
         self.markup = None
         self.builder.soup = None
 
+    #Milestone4
+    def __iter__(self):
+        for child in self.contents:
+            yield child
+
     def copy_self(self) -> "BeautifulSoup":
         """Create a new BeautifulSoup object with the same TreeBuilder,
         but not associated with any markup.

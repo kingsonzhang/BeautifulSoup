@@ -28,3 +28,10 @@ Task 7 from Milestone 1 has been rewritten. Using SoupReplacer, it filters out a
 cd ./apps/m3
 python task7.py "../Websites/BeautifulSoup.html"
 ```
+
+<p>To run the test file, change directory into the test folder, and run pytest on test_replacer.py</p>
+
+```bash
+cd ../../bs4/tests
+pytest test_replacer.py
+```
