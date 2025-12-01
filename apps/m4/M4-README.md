@@ -18,3 +18,9 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
 cd ./apps/m4
 python milestone4.py "../Websites/BeautifulSoup.html"
 ```
+
+<p>Once testing for Milestone 4 is complete, you can run the pytest for the replacer class written for Milestone 4</p>
+
+```bash
+pytest ../../bs4/tests/test_replacer.py
+```
