@@ -45,7 +45,7 @@ def test_replacer_with_attrs_xformer():
             del tag.attrs["class"]
     
     replacer = SoupReplacer(xformer = remove_class_attr)
-    badHTML = "<html><body><b>Test</b></body></html>"
+    badHTML = "<html><body><b class=\"Test\">Test</b></body></html>"
     soup = BeautifulSoup(badHTML, "lxml", replacer=replacer)
     assert soup.encode() == b"<html><body><b>Test</b></body></html>"
 
@@ -55,7 +55,7 @@ def test_replacer_with_attrs_xformer_with_filter():
             del tag.attrs["class"]
     
     replacer = SoupReplacer(("b", "blockquote"), xformer = remove_class_attr)
-    badHTML = "<html><body><b>Test</b></body></html>"
+    badHTML = "<html><body><b class=\"Test\">Test</b></body></html>"
     soup = BeautifulSoup(badHTML, "lxml", replacer=replacer)
     assert soup.encode() == b"<blockquote>Test</blockquote>"
 
@@ -65,10 +65,11 @@ def test_replacer_with_attrs_xformer_with_filter_empty():
             del tag.attrs["class"]
     
     replacer = SoupReplacer(("blockquote", "blockquote"), xformer = remove_class_attr)
-    badHTML = "<html><body><b>Test</b></body></html>"
+    badHTML = "<html><body><b class=\"Test\">Test</b></body></html>"
     soup = BeautifulSoup(badHTML, "lxml", replacer=replacer)
     assert soup.encode() == b""
 
+#Milestone4
 def test_replacer_iterable_default_bad_html():
     soup = BeautifulSoup("<p>Some bad HTML</p>", "lxml")
     for node in soup:
@@ -88,7 +89,6 @@ def test_replacer_iterable_nested():
     soup = BeautifulSoup("<html><body><p>Some <p>bad <p>HTML</p></p></p></body><html>", "lxml")
     for node in soup:
         assert soup.encode() == b"<html><body><p>Some </p><p>bad </p><p>HTML</p></body></html>"
-
 
 def test_replacer_iterable_multiple_elements_bad_html():
     soup = BeautifulSoup("<span>Some </span><span>bad </span>HTML</p>", "lxml")
